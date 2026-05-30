@@ -1,0 +1,9 @@
+{
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8"
+  },
+  "python.defaultInterpreterPath": "/usr/local/bin/python3",
+  "editor.tabSize": 4,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false
+}
