@@ -1,6 +1,7 @@
 import json
 import datetime
 from typing import Any, get_args, get_origin
+import re
 
 
 def strToFloat(value: str) -> float:
@@ -9,6 +10,20 @@ def strToFloat(value: str) -> float:
 
 def strToInt(value: str) -> int:
     return int(value.replace('.', ''))
+
+
+def extractNumber(text: str) -> float:
+    numbers = re.findall(r"\d{1,3}(?:\.\d{3})*,\d{2}|\d+,\d{2}", text)
+
+    if not numbers:
+        return 0.0
+
+    value = strToFloat(numbers[-1])
+
+    if re.search(r"\bD\b\s*$", text):
+        value = -value
+
+    return value
 
 
 class CustomEncoder(json.JSONEncoder):

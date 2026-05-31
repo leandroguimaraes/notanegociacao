@@ -1,8 +1,7 @@
-
 from notanegociacao.negociorealizado import NegocioRealizado
 from notanegociacao.resumofinanceiro import ResumoFinanceiro
 from notanegociacao.resumonegocios import ResumoNegocios
-from notanegociacao.util import strToFloat, strToInt
+from notanegociacao.util import strToFloat, strToInt, extractNumber
 import datetime
 
 
@@ -85,71 +84,66 @@ class NotaNegociacao:
 
             if ('Vendas à vista' in lines[i] and nota != None):
                 lines[i] = lines[i].replace('Vendas à vista ', '')
-                nota.resumoNegocios.vendasVista = strToFloat(
-                    lines[i][:lines[i].find(' ')])
+                nota.resumoNegocios.vendasVista = extractNumber(lines[i])
 
                 creditoDebito = lines[i][-1:]
                 lines[i] = lines[i][:lines[i].rfind(' ')]
-                nota.resumoFinanceiro.clearing.valorLiquidoOperacoes = strToFloat(
-                    lines[i][lines[i].rfind(' ') + 1:])
+                nota.resumoFinanceiro.clearing.valorLiquidoOperacoes = extractNumber(
+                    lines[i])
 
                 if (creditoDebito == 'D'):
                     nota.resumoFinanceiro.clearing.valorLiquidoOperacoes *= -1
 
             if ('Compras à vista' in lines[i] and nota != None):
                 lines[i] = lines[i].replace('Compras à vista ', '')
-                nota.resumoNegocios.comprasVista = strToFloat(
-                    lines[i][:lines[i].find(' ')])
+                nota.resumoNegocios.comprasVista = extractNumber(lines[i])
 
                 creditoDebito = lines[i][-1:]
                 lines[i] = lines[i][:lines[i].rfind(' ')]
-                nota.resumoFinanceiro.clearing.taxaLiquidacao = strToFloat(
-                    lines[i][lines[i].rfind(' ') + 1:])
+                nota.resumoFinanceiro.clearing.taxaLiquidacao = extractNumber(
+                    lines[i])
 
                 if (creditoDebito == 'D'):
                     nota.resumoFinanceiro.clearing.taxaLiquidacao *= -1
 
             if ('Opções - compras' in lines[i] and nota != None):
                 lines[i] = lines[i].replace('Opções - compras ', '')
-                nota.resumoNegocios.opcoesCompras = strToFloat(
-                    lines[i][:lines[i].find(' ')])
+                nota.resumoNegocios.opcoesCompras = extractNumber(lines[i])
 
                 creditoDebito = lines[i][-1:]
                 lines[i] = lines[i][:lines[i].rfind(' ')]
-                nota.resumoFinanceiro.clearing.taxaRegistro = strToFloat(
-                    lines[i][lines[i].rfind(' ') + 1:])
+                nota.resumoFinanceiro.clearing.taxaRegistro = extractNumber(
+                    lines[i])
 
                 if (creditoDebito == 'D'):
                     nota.resumoFinanceiro.clearing.taxaRegistro *= -1
 
             if ('Opções - vendas' in lines[i] and nota != None):
                 lines[i] = lines[i].replace('Opções - vendas ', '')
-                nota.resumoNegocios.opcoesVendas = strToFloat(
-                    lines[i][:lines[i].find(' ')])
+                nota.resumoNegocios.opcoesVendas = extractNumber(lines[i])
 
                 creditoDebito = lines[i][-1:]
                 lines[i] = lines[i][:lines[i].rfind(' ')]
-                nota.resumoFinanceiro.clearing.totalCBLC = strToFloat(
-                    lines[i][lines[i].rfind(' ') + 1:])
+                nota.resumoFinanceiro.clearing.totalCBLC = extractNumber(
+                    lines[i])
 
                 if (creditoDebito == 'D'):
                     nota.resumoFinanceiro.clearing.totalCBLC *= -1
 
             if ('Operações à termo' in lines[i] and nota != None):
                 lines[i] = lines[i].replace('Operações à termo ', '')
-                nota.resumoNegocios.operacoesTermo = strToFloat(
-                    lines[i][:lines[i].find(' ')])
+                nota.resumoNegocios.operacoesTermo = extractNumber(lines[i])
 
             if ('Valor das oper. c/ títulos públ. (v. nom.)' in lines[i] and nota != None):
                 lines[i] = lines[i].replace(
                     'Valor das oper. c/ títulos públ. (v. nom.) ', '')
-                nota.resumoNegocios.valorOperacoesTitulosPublicosVNom = strToFloat(
-                    lines[i][:lines[i].find(' ')])
+                nota.resumoNegocios.valorOperacoesTitulosPublicosVNom = extractNumber(
+                    lines[i])
 
                 creditoDebito = lines[i][-1:]
                 lines[i] = lines[i][:lines[i].rfind(' ')]
-                nota.resumoFinanceiro.bolsa.taxaTermoOpcoes = strToFloat(
-                    lines[i][lines[i].rfind(' ') + 1:])
+                nota.resumoFinanceiro.bolsa.taxaTermoOpcoes = extractNumber(
+                    lines[i])
 
                 if (creditoDebito == 'D'):
                     nota.resumoFinanceiro.bolsa.taxaTermoOpcoes *= -1
@@ -157,13 +151,11 @@ class NotaNegociacao:
             if ('Valor das operações' in lines[i] and nota != None):
                 lines[i] = lines[i].replace(
                     'Valor das operações ', '')
-                nota.resumoNegocios.valorOperacoes = strToFloat(
-                    lines[i][:lines[i].find(' ')])
+                nota.resumoNegocios.valorOperacoes = extractNumber(lines[i])
 
                 creditoDebito = lines[i][-1:]
                 lines[i] = lines[i][:lines[i].rfind(' ')]
-                nota.resumoFinanceiro.bolsa.taxaANA = strToFloat(
-                    lines[i][lines[i].rfind(' ') + 1:])
+                nota.resumoFinanceiro.bolsa.taxaANA = extractNumber(lines[i])
 
                 if (creditoDebito == 'D'):
                     nota.resumoFinanceiro.bolsa.taxaANA *= -1
@@ -171,8 +163,8 @@ class NotaNegociacao:
             if ('Emolumentos' in lines[i] and nota != None):
                 creditoDebito = lines[i][-1:]
                 lines[i] = lines[i][:lines[i].rfind(' ')]
-                nota.resumoFinanceiro.bolsa.emolumentos = strToFloat(
-                    lines[i][lines[i].rfind(' ') + 1:])
+                nota.resumoFinanceiro.bolsa.emolumentos = extractNumber(
+                    lines[i])
 
                 if (creditoDebito == 'D'):
                     nota.resumoFinanceiro.bolsa.emolumentos *= -1
@@ -180,8 +172,8 @@ class NotaNegociacao:
             if ('Total Bovespa / Soma' in lines[i] and nota != None):
                 creditoDebito = lines[i][-1:]
                 lines[i] = lines[i][:lines[i].rfind(' ')]
-                nota.resumoFinanceiro.bolsa.totalBovespaSoma = strToFloat(
-                    lines[i][lines[i].rfind(' ') + 1:])
+                nota.resumoFinanceiro.bolsa.totalBovespaSoma = extractNumber(
+                    lines[i])
 
                 if (creditoDebito == 'D'):
                     nota.resumoFinanceiro.bolsa.totalBovespaSoma *= -1
@@ -189,24 +181,24 @@ class NotaNegociacao:
             if ('Taxa Operacional' in lines[i] and nota != None):
                 creditoDebito = lines[i][-1:]
                 lines[i] = lines[i][:lines[i].rfind(' ')]
-                nota.resumoFinanceiro.custosOperacionais.taxaOperacional = strToFloat(
-                    lines[i][lines[i].rfind(' ') + 1:])
+                nota.resumoFinanceiro.custosOperacionais.taxaOperacional = extractNumber(
+                    lines[i])
 
                 if (creditoDebito == 'D'):
                     nota.resumoFinanceiro.custosOperacionais.taxaOperacional *= -1
 
             if ('Execução' in lines[i] and nota != None):
-                nota.resumoFinanceiro.custosOperacionais.execucao = strToFloat(
-                    lines[i][lines[i].rfind(' ') + 1:]) * -1
+                nota.resumoFinanceiro.custosOperacionais.execucao = extractNumber(
+                    lines[i])
 
             if ('Taxa de Custódia' in lines[i] and nota != None):
-                nota.resumoFinanceiro.custosOperacionais.taxaCustodia = strToFloat(
-                    lines[i][lines[i].rfind(' ') + 1:]) * -1
+                nota.resumoFinanceiro.custosOperacionais.taxaCustodia = extractNumber(
+                    lines[i])
 
             if ('Impostos' in lines[i] and nota != None):
                 lineInfo = lines[i].split()
-                nota.resumoFinanceiro.custosOperacionais.impostos = strToFloat(
-                    lineInfo[1]) * -1
+                nota.resumoFinanceiro.custosOperacionais.impostos = extractNumber(
+                    lines[i])
 
             if ('I.R.R.F. s/ operações' in lines[i] and nota != None):
                 lineInfo = lines[i][lines[i].find('R$') + 2:].split()
@@ -220,12 +212,12 @@ class NotaNegociacao:
 
             if ('IRRF Day Trade' in lines[i] and nota != None):
                 lines[i] = lines[i][lines[i].find('R$') + 3:]
-                nota.resumoFinanceiro.custosOperacionais.irrfDayTradeBase = strToFloat(
-                    lines[i][:lines[i].find(' ')]) * -1
+                nota.resumoFinanceiro.custosOperacionais.irrfDayTradeBase = extractNumber(
+                    lines[i])
 
                 lines[i] = lines[i][lines[i].find('R$') + 3:]
-                nota.resumoFinanceiro.custosOperacionais.irrfDayTradeProjecao = strToFloat(
-                    lines[i][:lines[i].find(' ')]) * -1
+                nota.resumoFinanceiro.custosOperacionais.irrfDayTradeProjecao = extractNumber(
+                    lines[i])
 
                 lines[i] = lines[i][lines[i].find(' ') + 1:]
                 lineInfo = lines[i].split()
@@ -235,22 +227,12 @@ class NotaNegociacao:
                 if (lineInfo[2] == 'D'):
                     nota.resumoFinanceiro.custosOperacionais.outros *= -1
             elif ('Outros' in lines[i] and nota != None):
-                lineInfo = lines[i].split()
-                nota.resumoFinanceiro.custosOperacionais.outros = strToFloat(
-                    lineInfo[1])
-
-                if (lineInfo[2] == 'D'):
-                    nota.resumoFinanceiro.custosOperacionais.outros *= -1
-
-            if ('Total Custos / Despesas' in lines[i] and nota != None):
-                creditoDebito = lines[i][-1:]
-                lines[i] = lines[i][:lines[i].rfind(' ')]
-                lines[i] = lines[i][lines[i].rfind(' ') + 1:]
-                nota.resumoFinanceiro.custosOperacionais.totalCustosDespesas = strToFloat(
+                nota.resumoFinanceiro.custosOperacionais.outros = extractNumber(
                     lines[i])
 
-                if (creditoDebito == 'D'):
-                    nota.resumoFinanceiro.custosOperacionais.totalCustosDespesas *= -1
+            if ('Total Custos / Despesas' in lines[i] and nota != None):
+                nota.resumoFinanceiro.custosOperacionais.totalCustosDespesas = extractNumber(
+                    lines[i])
 
             if ('Líquido para' in lines[i] and nota != None):
                 creditoDebito = lines[i][-1:]
