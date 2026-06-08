@@ -18,7 +18,7 @@ def extractNumber(text: str) -> float:
     if not numbers:
         return 0.0
 
-    value = strToFloat(numbers[-1])
+    value = strToFloat(numbers[0])
 
     if re.search(r"\bD\b\s*$", text):
         value = -value
